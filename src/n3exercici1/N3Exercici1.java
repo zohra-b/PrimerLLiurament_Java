@@ -1,4 +1,5 @@
 package n3exercici1;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +17,6 @@ public class N3Exercici1 {
 		String club;
 		String player;
 		String team;
-		int index;
 		Scanner input = new Scanner(System.in);
 		
 ////  AÑADIMOS UNOS REDACTORES AL ARRAY PARA TESTEAR EL CODIGO  /////////////////////////////////////////////////////////		
@@ -33,7 +33,7 @@ public class N3Exercici1 {
 				+ "4.- Eliminar noticia (ha de demanar redactor/a i titular de la notícia).\r\n"
 				+ "5.- Mostrar todas las noticias por redactor/a.\r\n"
 				+ "6.- Calcular puntuación de la noticia.\r\n"
-				+ "7.- Calcular precio de la noticia.\r\n\""
+				+ "7.- Calcular precio de la noticia.\r\n"
 				+ "0.- Salir del programa.");
 		
 		option = input.nextInt();
@@ -118,7 +118,6 @@ public class N3Exercici1 {
 			System.out.println(redactorsList());
 			System.out.println("Introduce el nombre y apellido del redactor que quieres consultar");
 			name = input.nextLine();
-			index = redactorIndexByName(name);
 			System.out.println(redactorArticlesByName(name));
 			System.out.println("Introduce el titular de la noticia que quieres eliminar");
 			title = input.nextLine();
@@ -129,7 +128,7 @@ public class N3Exercici1 {
 			System.out.println(redactorsList());
 			System.out.println("Introduce el DNI del redactor que quieres consultar");
 			dni = input.nextLine();
-			System.out.println(redactorArticles(dni));
+			answer =redactorArticles(dni);
 			break;
 		
 		case 6 :
@@ -152,7 +151,8 @@ public class N3Exercici1 {
 		}
 		
 		System.out.println(answer);
-
+//	NoticiaFutbol noticia = new NoticiaFutbol("increidble", "europe", "barça" , "Benzema");
+//	System.out.println(noticia.calcularPreu());
 		} while (option != 0);
 		input.close();
 	}
@@ -314,13 +314,16 @@ public static String redactorArticlesByName(String name) {
 	public static String createNoticiaFutbol(String dni, String title, String text, 
 											String competition, String club, String player){
 		String answer = "";
-		for (Redactor r : redactors) {
-			if (dni.equalsIgnoreCase(r.getDni())) {
-			NoticiaFutbol newArticle = new NoticiaFutbol(title, competition, club, player);
-			r.getNoticias().add(newArticle);
-			answer = "La noticia ha sido creada"; // + lista noticias del redactor
-			} else {
+		int index = redactorIndex(dni);
+		if (index == -1) {
 			answer = "No se ha encontrado este redactor";
+		} else {
+			for (Redactor r : redactors) {
+				if (dni.equalsIgnoreCase(r.getDni())) {
+				NoticiaFutbol newArticle = new NoticiaFutbol(title, competition, club, player);
+				r.getNoticias().add(newArticle);
+				answer = "La noticia ha sido creada"; // + lista noticias del redactor
+				} 
 			}
 		}
 		return answer;
@@ -329,14 +332,16 @@ public static String redactorArticlesByName(String name) {
 	public static String createNoticiaBasquet(String dni, String title, String text, 
 										String competition, String club){
 		String answer = "";
+		int index = redactorIndex(dni);
+		if (index == -1) {
+			answer = "No se ha encontrado este redactor";
+		} else {
 		for (Redactor r : redactors) {
-			if (dni.equalsIgnoreCase(r.getDni())) {
-				NoticiaBasquet newArticle = new NoticiaBasquet(title, competition, club);
-				r.getNoticias().add(newArticle);
-				answer = "La noticia ha sido creada"; // + lista noticias del redactor
-			} else {
-				answer = "No se ha encontrado este redactor";
-			}
+				if (dni.equalsIgnoreCase(r.getDni())) {
+					NoticiaBasquet newArticle = new NoticiaBasquet(title, competition, club);
+					r.getNoticias().add(newArticle);
+					answer = "La noticia ha sido creada"; // + lista noticias del redactor
+				} 			}
 		}
 		return answer;
 	}
@@ -344,13 +349,16 @@ public static String redactorArticlesByName(String name) {
 	public static String createNoticiaTenis(String dni, String title, String text, 
 			String competition, String player){
 			String answer = "";
-			for (Redactor r : redactors) {
-				if (dni.equalsIgnoreCase(r.getDni())) {
-					NoticiaTenis newArticle = new NoticiaTenis(title, competition, player);
-					r.getNoticias().add(newArticle);
-					answer = "La noticia ha sido creada"; // + lista noticias del redactor
-				} else {
-					answer = "No se ha encontrado este redactor";
+			int index = redactorIndex(dni);
+			if (index == -1) {
+				answer = "No se ha encontrado este redactor";
+			} else {
+				for (Redactor r : redactors) {
+					if (dni.equalsIgnoreCase(r.getDni())) {
+						NoticiaTenis newArticle = new NoticiaTenis(title, competition, player);
+						r.getNoticias().add(newArticle);
+						answer = "La noticia ha sido creada"; // + lista noticias del redactor
+					} 
 				}
 			}
 			return answer;
@@ -359,13 +367,16 @@ public static String redactorArticlesByName(String name) {
 	public static String createNoticiaF1(String dni, String title, String text, 
 			String team){
 			String answer = "";
-			for (Redactor r : redactors) {
-				if (dni.equalsIgnoreCase(r.getDni())) {
-					NoticiaF1 newArticle = new NoticiaF1(title, team);
-					r.getNoticias().add(newArticle);
-					answer = "La noticia ha sido creada"; // + lista noticias del redactor
-				} else {
-					answer = "No se ha encontrado este redactor";
+			int index = redactorIndex(dni);
+			if (index == -1) {
+				answer = "No se ha encontrado este redactor";
+			} else {
+				for (Redactor r : redactors) {
+					if (dni.equalsIgnoreCase(r.getDni())) {
+						NoticiaF1 newArticle = new NoticiaF1(title, team);
+						r.getNoticias().add(newArticle);
+						answer = "La noticia ha sido creada"; // + lista noticias del redactor
+					} 
 				}
 			}
 			return answer;
@@ -375,13 +386,16 @@ public static String redactorArticlesByName(String name) {
 	public static String createNoticiaMoto(String dni, String title, String text, 
 			String team){
 			String answer = "";
-			for (Redactor r : redactors) {
-				if (dni.equalsIgnoreCase(r.getDni())) {
-					NoticiaMoto newArticle = new NoticiaMoto(title, team);
-					r.getNoticias().add(newArticle);
-					answer = "La noticia ha sido creada"; // + lista noticias del redactor
-				} else {
-					answer = "No se ha encontrado este redactor";
+			int index = redactorIndex(dni);
+			if (index == -1) {
+				answer = "No se ha encontrado este redactor";
+			} else {
+				for (Redactor r : redactors) {
+					if (dni.equalsIgnoreCase(r.getDni())) {
+						NoticiaMoto newArticle = new NoticiaMoto(title, team);
+						r.getNoticias().add(newArticle);
+						answer = "La noticia ha sido creada"; // + lista noticias del redactor
+					} 
 				}
 			}
 			return answer;
@@ -401,13 +415,13 @@ public static String redactorArticlesByName(String name) {
 		int redactorIndex = redactorIndexByName(name);
 		int articleIndex = articleIndex(name, title);
 		int price = redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPreu();
-				return "El precio de la noticia es de " + price + "euros";
+				return "El precio de la noticia es de " + price + " euros";
 	}
 	
 	private static String calculatePoints(String name, String title) {
 		int redactorIndex = redactorIndexByName(name);
 		int articleIndex = articleIndex(name, title);
 		int points = redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPunts();
-				return "la noticia vale " + points + "puntos";
+				return "la noticia vale " + points + " puntos";
 	}
 }
