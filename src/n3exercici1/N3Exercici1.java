@@ -407,7 +407,9 @@ public static String redactorArticlesByName(String name) {
 		int articleIndex = articleIndex(name, title);
 		String answer = "";
 		
-		if(articleIndex == -1) {
+		if(redactorIndex == -1) {
+			answer = "Este nombre no existe ";
+		} else if(articleIndex == -1) {
 			answer = "Este título no existe";
 		} else {
 		redactors.get(redactorIndex).getNoticias().remove(articleIndex);
@@ -423,7 +425,9 @@ public static String redactorArticlesByName(String name) {
 		int articleIndex = articleIndex(name, title);
 		String answer = "";
 		int price; 
-		if(articleIndex == -1) {
+		if(redactorIndex == -1) {
+			answer = "Este nombre no existe ";
+		} else if(articleIndex == -1) {
 			answer = "Este título no existe";
 		} else {
 			price = redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPreu();
@@ -437,7 +441,9 @@ public static String redactorArticlesByName(String name) {
 		int articleIndex = articleIndex(name, title);
 		String answer = "";
 		int points;
-		if(articleIndex == -1) {
+		if(redactorIndex == -1) {
+			answer = "Este nombre no existe ";
+		} else if(articleIndex == -1) {
 			answer = "Este título no existe";
 		} else {
 			points =  redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPunts();
