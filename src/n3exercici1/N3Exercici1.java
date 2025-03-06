@@ -226,29 +226,37 @@ public class N3Exercici1 {
 		}
 		return noticiasList;
 	}
-	
+
+/////////////////// DETERMINAR DE QUE DEPORTE HABLA LA NOTICIA DE NOTICIAS 
+	public static String getSport(Noticia noticia) {
+		String sport = "";
+		if(noticia instanceof NoticiaFutbol ) {
+			sport = "Futbol";
+		} else if(noticia instanceof NoticiaBasquet ) {
+			sport = "Basquet";
+		} else if(noticia instanceof NoticiaTenis) {
+			sport = "Tenis";
+		} else if(noticia instanceof NoticiaF1 ) {
+			sport = "F1";
+		} else if(noticia instanceof NoticiaMoto ) {
+			sport = "Motociclisme";
+		}
+		return sport;
+	}
 /////////////////// MOSTRAR LA LISTA DE NOTICIAS POR CADA REDACTOR BUSQUEDA POR DNI
 	public static String redactorArticles(String dni) {
 		int index = redactorIndex(dni);
 		String redactorArticles = "Lista de las noticias del redactor/a : \n";
+		Noticia noticia;
 		String sport ="";
 		String answer = "";
 		if (index == -1){
 			answer = "Comprueba el DNI introducido";
 		} else {
 				for (int i = 0 ; i < redactors.get(index).getNoticias().size() ; i++) {
-					if(redactors.get(index).getNoticias().get(i) instanceof NoticiaFutbol ) {
-						sport = "Futbol";
-					} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaBasquet ) {
-						sport = "Basquet";
-					} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaTenis) {
-						sport = "Tenis";
-					} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaF1 ) {
-						sport = "F1";
-					} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaMoto ) {
-						sport = "Motociclisme";
-					}
-					redactorArticles += (i+1) + ".- " + sport + " - " +redactors.get(index).getNoticias().get(i).getTitular() + "\n";
+				
+					noticia = redactors.get(index).getNoticias().get(i);
+					redactorArticles += (i+1) + ".- " + getSport(noticia) + " - " + noticia.getTitular() + "\n";
 				}
 				answer = redactorArticles;
 			}
@@ -261,22 +269,14 @@ public static String redactorArticlesByName(String name) {
 	String redactorArticles = "Lista de las noticias del redactor/a : \n";
 	String sport ="";
 	String answer = "";
+	Noticia noticia;
 	if (index == -1){
 		answer = "Comprueba el DNI introducido";
 	} else {
 		for (int i = 0 ; i < redactors.get(index).getNoticias().size() ; i++) {
-			if(redactors.get(index).getNoticias().get(i) instanceof NoticiaFutbol ) {
-				sport = "Futbol";
-			} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaBasquet ) {
-				sport = "Basquet";
-			} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaTenis) {
-				sport = "Tenis";
-			} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaF1 ) {
-				sport = "F1";
-			} else if(redactors.get(index).getNoticias().get(i) instanceof NoticiaMoto ) {
-				sport = "Motociclisme";
-			}
-			redactorArticles += (i+1) + ".- " + sport + " - " +redactors.get(index).getNoticias().get(i).getTitular() + "\n";
+		
+			noticia = redactors.get(index).getNoticias().get(i);
+			redactorArticles += (i+1) + ".- " + getSport(noticia) + " - " +noticia.getTitular() + "\n";
 		}
 		answer = redactorArticles;
 	}
@@ -405,8 +405,15 @@ public static String redactorArticlesByName(String name) {
 	private static String deleteNoticia(String name, String title) {
 		int redactorIndex = redactorIndexByName(name);
 		int articleIndex = articleIndex(name, title);
+		String answer = "";
+		
+		if(articleIndex == -1) {
+			answer = "Este título no existe";
+		} else {
 		redactors.get(redactorIndex).getNoticias().remove(articleIndex);
-		return "La noticia ha sido eliminada";
+		answer =  "La noticia ha sido eliminada";
+		}
+		return answer ;
 	}
 	
 	
@@ -414,14 +421,29 @@ public static String redactorArticlesByName(String name) {
 	private static String calculatePrice(String name, String title) {
 		int redactorIndex = redactorIndexByName(name);
 		int articleIndex = articleIndex(name, title);
-		int price = redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPreu();
-				return "El precio de la noticia es de " + price + " euros";
+		String answer = "";
+		int price; 
+		if(articleIndex == -1) {
+			answer = "Este título no existe";
+		} else {
+			price = redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPreu();
+			answer = "El precio de la noticia es de " + price + " euros";
+		}
+		return answer;
 	}
 	
 	private static String calculatePoints(String name, String title) {
 		int redactorIndex = redactorIndexByName(name);
 		int articleIndex = articleIndex(name, title);
-		int points = redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPunts();
-				return "la noticia vale " + points + " puntos";
+		String answer = "";
+		int points;
+		if(articleIndex == -1) {
+			answer = "Este título no existe";
+		} else {
+			points =  redactors.get(redactorIndex).getNoticias().get(articleIndex).calcularPunts();
+			answer = "la noticia vale " + points + " puntos";
+		}
+		return answer;
 	}
+	
 }
