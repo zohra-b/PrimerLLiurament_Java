@@ -152,8 +152,7 @@ public class N3Exercici1 {
 		}
 		
 		System.out.println(answer);
-//	NoticiaFutbol noticia = new NoticiaFutbol("increidble", "europe", "barça" , "Benzema");
-//	System.out.println(noticia.calcularPreu());
+
 		} while (option != 0);
 		input.close();
 	}
